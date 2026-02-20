@@ -14,9 +14,8 @@ services:
       - JACKETT_API_KEY=${JACKETT_API_KEY}
       - PREFERRED_LANGUAGE=${PREFERRED_LANGUAGE}
     restart: unless-stopped
-
   imdb-app:
-    image: zoltanrepasi/imdb-app:latest
+    image: zoltanrepasi/xmltv-generator-imdb-app:latest
     container_name: imdb-app
     ports:
       - "8765:8765"
@@ -26,4 +25,14 @@ services:
       - PYTHONUNBUFFERED=1
       - MDB_API_KEY=${MDB_API_KEY}
       - TMDB_API_KEY=${TMDB_API_KEY}
+    restart: unless-stopped
+  stremio-torrent-stream:
+    image: nyakaspeter/stremio-torrent-stream
+    container_name: stremio-torrent-stream
+    environment:
+      SEED_TIME: 259200000
+    ports:
+      - "58827-58828:58827-58828/tcp"
+    volumes:
+      - ./data:/data
     restart: unless-stopped
